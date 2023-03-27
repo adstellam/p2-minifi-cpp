@@ -1,0 +1,100 @@
+MiNiFi Config Version: 3
+Flow Controller:
+  name: MiNiFi Flow
+Core Properties:
+  flow controller graceful shutdown period: 10 sec
+  flow service write delay interval: 500 ms
+  administrative yield duration: 30 sec
+  bored yield duration: 10 millis
+  max concurrent threads: 1
+FlowFile Repository:
+  partitions: 256
+  checkpoint interval: 2 mins
+  always sync: false
+  Swap:
+    threshold: 20000
+    in period: 5 sec
+    in threads: 1
+    out period: 5 sec
+    out threads: 4
+Content Repository:
+  content claim max appendable size: 10 MB
+  content claim max flow files: 100
+  always sync: false
+Provenance Repository:
+  provenance rollover time: 1 min
+Component Status Repository:
+  buffer size: 1440
+  snapshot frequency: 1 min
+Security Properties:
+  keystore:
+  keystore type:
+  keystore password:
+  key password:
+  truststore:
+  truststore type:
+  truststore password:
+  ssl protocol:
+  Sensitive Props:
+    key: stoutagtechnifi20220131
+    algorithm: PBEWITHMD5AND256BITAES-CBC-OPENSSL
+    provider: BC
+Processors:
+  - id: f53a316f-9dfa-4ac8-bee0-961711362d83
+    name: GetFile
+    class: org.apache.nifi.processors.standard.GetFile
+    max concurrent tasks: 1
+    scheduling strategy: TIMER_DRIVEN
+    scheduling period: 0 sec
+    penalization period: 30 sec
+    yield period: 1 sec
+    run duration nanos: 0
+    auto-terminated relationships list: []
+    Properties:
+      Input Directory: /data/current
+      File Filter: \.bin$
+      Path Filter:
+      Batch Size: 10
+      Keep Source File: false
+      Recurse Subdirectories: false
+      Polling Interval: 0 sec
+      Ignore Hidden Files: true
+      Minimum File Age: 0 sec
+      Maximum File Age:
+      Minimum File Size: 0 B
+      Maximum File Size:
+Controller Services: []
+Process Groups: []
+Input Ports: []
+Output Ports: []
+Funnels: []
+Connections:
+  - id: 968ebdb4-87f3-4bc5-9667-af826d61142d
+    name: GetFile/success/RPG
+    source id: f53a316f-9dfa-4ac8-bee0-961711362d83
+    source relationship names:
+      - success
+    destination id: e7edfff9-0182-1000-8b5a-96237dbe1eee
+    max work queue size: 0
+    max work queue data size: 0 MB
+    flowfile expiration: 0 sec
+    queue prioritizer class: ""
+Remote Process Groups:
+  - id: 0d056aa0-bcde-43ab-ae1a-a9febb4e0a89
+    name: NiFi Flow
+    url: https://nifi.stoutagtech.dev:9443/nifi
+    timeout: 30 sec
+    yield period: 10 sec
+    transport protocol: RAW
+    proxy host: ""
+    proxy port: ""
+    proxy user: ""
+    proxy password: ""
+    local network interface: ""
+    Input Ports:
+      - id: e7edfff9-0182-1000-8b5a-96237dbe1eee
+        name: FromMiNiFi
+        max concurrent tasks: 1
+        use compression: false
+    Output Ports: []
+NiFi Properties Overrides: {}

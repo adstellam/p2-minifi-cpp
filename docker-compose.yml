@@ -1,0 +1,12 @@
+version: "2.4"
+services:
+  minifi:
+    image: apache/nifi-minifi-cpp:0.11.0
+    restart: always
+    hostname: machine
+    network_mode: host
+    volumes:
+      - ./conf:/opt/minifi/minifi-current/conf
+      - ./cert:/opt/minifi/minifi-current/cert
+      - ./cacert:/opt/minifi/minifi-current/cacert
+      - ./data:/data

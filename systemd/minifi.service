@@ -1,0 +1,15 @@
+[Unit]
+Description=minifi
+After=network-online.target
+
+[Service]
+ExecStart=/opt/stout/minifi/bin/minifi
+WorkingDirectory=/opt/stout/minifi
+Environment="MINIFI_HOME=/opt/stout/minifi"
+User=root
+Restart=always
+RestartSec=2
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
